@@ -175,14 +175,19 @@ interface User {
   }
   
   // Используйте Utility Type для создания типа, который делает все свойства Employee опциональными
-  type PartialEmployee = // Заполните тип
+  type PartialEmployee = Partial<Employee>// Заполните тип
   
   // Используйте Utility Type для создания типа, который делает все свойства Employee доступными только для чтения
-  type ReadonlyEmployee = // Заполните тип
+  type ReadonlyEmployee = Readonly<Employee>// Заполните тип
   
   // Создайте функцию, которая принимает PartialEmployee и выводит информацию о сотруднике
-  function printEmployeeInfo(employee: PartialEmployee) {
+  function printEmployeeInfo(employee: PartialEmployee): void {
     // Реализуйте логику функции, обрабатывая случай отсутствующих свойств
+    console.log(`Информация о работнике: 
+      ID: ${employee.id !== undefined ? employee.id : 'информация отсутствует'},
+      Имя: ${employee.name !== undefined ? employee.name : 'информация отсутствует'}, 
+      Департамент: ${employee.department !== undefined ? employee.department : 'информация отсутствует'}, 
+      Электронная почта: ${employee.email !== undefined ? employee.email : 'информация отсутствует'}`)
   }
   //---------------------------------------------------------------------------------
   
