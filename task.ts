@@ -245,16 +245,16 @@ interface User {
   }
   
   // Типизируйте функцию, которая принимает массив объектов с ограничением на Generics, где каждый объект должен соответствовать интерфейсу Identifiable. Не забывайте, что find может вернуть undefined
-  function findById(items, id ) {
+  function findById<T extends Identifiable>(items: T[], id: number ): T | undefined {
     return items.find(item => item.id === id);
   }
   
   // Используйте эту функцию для поиска пользователя по id в массиве пользователей
-  const users: User[] = [
+  const usersArray: User[] = [
     { id: 1, name: "Alice", email: "alice@example.com", age: 25 },
     { id: 2, name: "Bob", email: "bob@example.com", age: 30 }
   ];
-  const user = findById(users, 1);
+  const user = findById<Identifiable>(usersArray, 1);
   //---------------------------------------------------------------------------------
   
   
