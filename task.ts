@@ -4,6 +4,7 @@
 interface User {
     id: number;
     name: string;
+    email: string;
     // Добавьте свойство email типа string
   }
   
@@ -11,83 +12,79 @@ interface User {
   interface Activity {
     userId: number;
     activity: string;
+    timestamp: Date;
     // Добавьте свойство timestamp типа Date
   }
   
   // Реализуйте функцию fetchData используя Generic. Функция должна возвращать Promise.
-  async function fetchData(url: string) {
-    // Реализуйте получение данных с использованием fetch и возвращение их в формате json
+  async function fetchData <T> (url: string) : Promise<T> {
+    return new Promise((resolve, reject) => {
+        fetch(url)
+        .then(response => {
+            if (response.ok) {
+                resolve(response.json())
+            } else {
+                reject(new Error('Ошибка получения данных'))
+            }
+        })
+        .catch(e => {
+            reject(new Error(e))
+        })
+    })
   }
   
   // Используйте Utility Types для создания Partial и Readonly версий User и Activity
-  type PartialUser = // Заполните тип
-  type ReadonlyActivity = // Заполните тип
+  type PartialUser = Partial<User>// Заполните тип
+  type ReadonlyActivity = Readonly<Activity>// Заполните тип
   
   //Типизируйте функцию. userId - число
-  function getUserActivities(userId) {
+  function getUserActivities<T>(userId : number) : Promise<T> {
     return fetchData(`/api/activities/${userId}`);
   }
   // Используйте ReturnType для создания типа возвращаемого значения функции getUserActivities
-  type ActivitiesReturnType = // Заполните тип
+  type ActivitiesReturnType = ReturnType<typeof getUserActivities>// Заполните тип
   
   // Используйте extends в условных типах для создания типа Permissions
   type AdminPermissions = { canBanUser: boolean };
   type BasicPermissions = { canEditProfile: boolean };
   // Заполните тип. Должен выявляться на основне некоторого дженерика и опредять, какой из пермишенов выдавать: Admin или Basic.
-  type Permissions<T> = 
-  
-  
+    type Permissions<T> = T extends "admin" ? AdminPermissions : BasicPermissions  
   ///ЧАСТЬ 2.
   
   // Определите Type Alias для Union типа String или Number
-  type StringOrNumber = // Заполните тип
+  type StringOrNumber = string | number // Заполните тип
   
   // Реализуйте функцию logMessage, которая принимает StringOrNumber и не возвращает значение (void)
   function logMessage(message: StringOrNumber): void {
-    // Реализуйте вывод сообщения в консоль
+    console.log(message)
   }
   
   // Реализуйте функцию throwError, которая никогда не возвращает управление (never)
   function throwError(errorMsg: string): never {
-    // Бросьте исключение с errorMsg
+    throw new Error(errorMsg)
   }
   
   // Реализуйте Type Guard для проверки, является ли значение строкой
   function isString(value: StringOrNumber): value is string {
-    // Верните результат проверки типа
+    return typeof value === 'string'
   }
   
   // Реализуйте функцию assertIsNumber, которая использует asserts для утверждения типа number
   function assertIsNumber(value: any): asserts value is number {
-    // Бросьте исключение, если значение не является числом
+    if (typeof value !== 'number') {
+      throw new Error('value не число')
+    } 
   }
   
   // Завершите функцию processValue, используя isString и assertIsNumber
   function processValue(value: StringOrNumber) {
-    // Реализуйте логику проверки и обработки значения
-  }
-  
-  // Type Alias и Union
-  type StringOrNumber = string | number;
-  
-  
-  //сделайте  Type Guard для определения, является ли значение строкой
-  function isString(value) {
-  }
-  
-  // создайте asserts function на число.
-  function assertIsNumber(value: any): asserts {
-    
-  }
-  
-  // Использование Type Guard и Asserts
-  function processValue(value: StringOrNumber) {
     if (isString(value)) {
-      console.log(`String value: ${value.toUpperCase()}`);
+      console.log('Value - строка: ' + value)
     } else {
-      assertIsNumber(value);
-      console.log(`Number value: ${value.toFixed(2)}`);
+      assertIsNumber(value)
+      console.log('Value - число: ' + value)
     }
+    
   }
   
   //---------------------------------------------------------------------------------
