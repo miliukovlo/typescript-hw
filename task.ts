@@ -205,18 +205,24 @@ interface User {
     email: string;
     age: number;
   }
-  
+  const someUser : User = {
+    id: 1,
+    name: 'Some name',
+    email: 'pochta@pochta.com',
+    age: 25
+  }
   // Используйте Indexed Access Types для получения типа поля name из User
-  type UserNameType = // Заполните тип
+  type UserNameType = User["name"]// Заполните тип
   
   // Создайте Mapped Type, который преобразует все поля интерфейса User в boolean. Можно воспользовать конструкцией Key in keyof 
   type UserFieldsToBoolean = {
+    [property in keyof User]: boolean
   }
   
   // Реализуйте функцию, которая принимает ключи интерфейса User и возвращает их типы
-  function getUserFieldType(key) {
+  function getUserFieldType<K extends keyof User>( key?: K ){
     // Верните тип ключа
-    return 
+    return  key ? typeof someUser[key] : someUser 
   }
   
   // Используйте эту функцию для получения типа поля 'age' и 'name'
