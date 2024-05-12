@@ -2,6 +2,13 @@
   // Задание 6: Расширение и ограничение Generics
   // Цель: Создать универсальные функции с ограничениями типов.
   
+
+  interface User {
+    id: number,
+    name: string,
+    email: string,
+    age: number
+  }
   // Создайте базовый интерфейс для сущностей с идентификатором
   interface Identifiable {
     id: number;
