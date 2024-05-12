@@ -18,12 +18,7 @@
   
   // Создайте Type Guard для проверки, является ли объект автомобилем
   function isCar(vehicle: any): vehicle is Car {
-    return (
-      typeof vehicle === 'object' &&
-      typeof vehicle.company === 'string' &&
-      typeof vehicle.model === 'string' &&
-      typeof vehicle.year === 'number'
-    );
+    return vehicle
   }
   
   // Используйте Type Guard в функции, которая печатает информацию о транспорте. Небольшая подсказка о том, какие параметры в себя может принимать isCar дана ниже.
